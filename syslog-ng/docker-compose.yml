@@ -1,17 +1,35 @@
+
+version: "3.8"
 services:
   syslog-ng:
     build:
       context: ./syslog-ng
+    image: balabit/syslog-ng:4.6.0
     container_name: syslog-ng
     ports:
       - "514:514/udp"
       - "601:601/tcp"
     volumes:
-      - ./config:/etc/syslog-ng        # this maps config folder to container's config path
-      - ./logs:/var/log/network        # this maps log output
-    restart: always
+      - ./config:/etc/syslog-ng:ro        # config folder is read-only
+      - syslog-ng-logs:/var/log/network   # use named volume for logs
+    restart: unless-stopped
     networks:
       - monitoring
+    healthcheck:
+      test: ["CMD", "pgrep", "syslog-ng"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128M
+    env_file:
+      - .env
+
+volumes:
+  syslog-ng-logs:
 
 networks:
   monitoring:
