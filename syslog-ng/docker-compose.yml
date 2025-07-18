@@ -28,7 +28,6 @@ services:
     env_file:
       - .env
 
-volumes:
 
 networks:
   monitoring:
