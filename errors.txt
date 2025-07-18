@@ -1,4 +1,4 @@
-daniel@LIFEBOOK-U7511-d698314f:~/IBN/Monitor-stack$ docker compose up WARN[0000] The "MYSQL_ROOT_PASSWORD" 
+8314f:~/IBN/Monitor-stack$ docker compose up WARN[0000] The "MYSQL_ROOT_PASSWORD" 
 variable is not set. Defaulting to a blank string. WARN[0000] The "MYSQL_DATABASE" variable is not set. 
 Defaulting to a blank string. WARN[0000] The "MYSQL_USER" variable is not set. Defaulting to a blank string. 
 WARN[0000] The "MYSQL_PASSWORD" variable is not set. Defaulting to a blank string. WARN[0000] The 
@@ -25,3 +25,6 @@ daniel@LIFEBOOK-U7511-d698314f:~/IBN/syslog-ng$ docker compose up WARN[0000]
 /home/daniel/IBN/syslog-ng/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, 
 please remove it to avoid potential confusion env file /home/daniel/IBN/syslog-ng/.env not found: stat 
 /home/daniel/IBN/syslog-ng/.env: no such file or directory
+
+
+failed parsing config: /etc/loki/local-config.yaml does not exist, set config.file for custom config path
