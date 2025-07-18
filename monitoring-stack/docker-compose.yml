@@ -9,7 +9,11 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./loki/loki-config.yaml:/etc/loki/local-config.yaml:ro
-      - ./loki/data:/loki
+      - ./loki/chunks:/loki/chunks
+      - ./loki/index:/loki/index
+      - ./loki/cache:/loki/cache
+      - ./loki/wal:/loki/wal
+      - ./loki/compactor:/loki/compactor
     restart: unless-stopped
 
   promtail:
