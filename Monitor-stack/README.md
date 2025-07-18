@@ -62,13 +62,17 @@ Syslog-ng writes logs to the host directory `./syslog-ng/logs`, which is also mo
 **Before starting the stack, you must ensure this directory exists.**
 
 
-You can do this automatically by running the provided script:
+
+You can do this automatically by running the provided scripts:
 
 ```sh
+# Ensure syslog-ng/Promtail log directory exists
 sh ./check_and_fix_syslog_logs_dir.sh
+# Ensure Loki data directories exist
+sh ./check_loki_dirs.sh
 ```
 
-This script checks for the log directory, creates it if needed, and sets permissions to ensure Promtail can access it. Run it any time before `docker compose up` to avoid mount errors.
+These scripts check for the required directories, create them if needed, and set permissions to ensure all containers can access them. Run them any time before `docker compose up` to avoid mount errors.
 
 #### Manual Steps (if you prefer):
 

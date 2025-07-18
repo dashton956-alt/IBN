@@ -22,7 +22,7 @@ docker compose up -d --build
 - Edit `config/syslog-ng.conf` to change log sources, destinations, or formatting.
 - The `config` directory is mounted read-only into the container.
 
-### 3. Log Storage
+- If you are using Loki integration, run the `check_loki_dirs.sh` script in the Monitor-stack directory before starting the stack to ensure all required directories exist and have correct permissions.
 - Logs are written to the `logs/` directory in this folder (mapped to `/var/log/network` in the container).
 - This directory must exist on the host for syslog-ng to write logs and for Promtail (in the Monitor-stack) to read them.
 - Log rotation is handled by logrotate (see `logrotate-syslog-ng`).
