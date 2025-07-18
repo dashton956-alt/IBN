@@ -1,0 +1,30 @@
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108 github.com/grafana/loki/pkg/loki.(*Loki).Run 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108 /src/loki/pkg/loki/loki.go:461 main.main 
+/src/loki/cmd/loki/main.go:110 runtime.main /usr/local/go/src/runtime/proc.go:267 runtime.goexit 
+/usr/local/go/src/runtime/asm_amd64.s:1650 error initialising module: store 
+github.com/grafana/dskit/modules.(*Manager).initModule 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138 
+github.com/grafana/dskit/modules.(*Manager).InitModuleServices 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108 github.com/grafana/loki/pkg/loki.(*Loki).Run 
+/src/loki/pkg/loki/loki.go:461 main.main /src/loki/cmd/loki/main.go:110 runtime.main 
+/usr/local/go/src/runtime/proc.go:267 runtime.goexit /usr/local/go/src/runtime/asm_amd64.s:1650 level=warn 
+ts=2025-07-18T13:09:26.804978255Z caller=cache.go:127 msg="fifocache config is deprecated. use embedded-cache 
+instead" level=warn ts=2025-07-18T13:09:26.805044469Z caller=experimental.go:20 msg="experimental feature in 
+use" feature="In-memory (FIFO) cache - chunksembedded-cache" level=error ts=2025-07-18T13:09:26.805757938Z 
+caller=log.go:230 msg="error running loki" err="mkdir : no such file or directory\nerror creating index 
+client\ngithub.com/grafana/loki/pkg/storage.(*store).storeForPeriod\n\t/src/loki/pkg/storage/store.go:295\ngithub.com/grafana/loki/pkg/storage.(*store).init\n\t/src/loki/pkg/storage/store.go:177\ngithub.com/grafana/loki/pkg/storage.NewStore\n\t/src/loki/pkg/storage/store.go:155\ngithub.com/grafana/loki/pkg/loki.(*Loki).initStore\n\t/src/loki/pkg/loki/modules.go:689\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:136\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_amd64.s:1650\nerror 
+initialising module: 
+store\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_amd64.s:1650" 
+github.com/grafana/loki/pkg/loki.(*Loki).Run /src/loki/pkg/loki/loki.go:461 main.main 
+/src/loki/cmd/loki/main.go:110 runtime.main /usr/local/go/src/runtime/proc.go:267 runtime.goexit 
+/usr/local/go/src/runtime/asm_amd64.s:1650 error initialising module: store 
+github.com/grafana/dskit/modules.(*Manager).initModule 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138 
+github.com/grafana/dskit/modules.(*Manager).InitModuleServices 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108 github.com/grafana/loki/pkg/loki.(*Loki).Run 
+/src/loki/pkg/loki/loki.go:461 main.main /src/loki/cmd/loki/main.go:110 runtime.main 
+/usr/local/go/src/runtime/proc.go:267 runtime.goexit /usr/local/go/src/runtime/asm_amd64.s:1650 level=warn 
+ts=2025-07-18T13:09:26.804978255Z caller=cache.go:127 msg="fifocache config is deprecated. use embedded-cache 
+instead" level=warn ts=2025-07-18T13:09:26.805044469Z caller=experimental.go:20 msg="experimental feature in 
+use" feature="In-memory (FIFO) cache - chunksembedded-cache"
+level=error ts=2025-07-18T13:09:26.805757938Z caller=log.go:230 msg="error running loki" err="mkdir : no such file or directory\nerror creating index client\ngithub.com/grafana/loki/pkg/storage.(*store).storeForPeriod\n\t/src/loki/pkg/storage/store.go:295\ngithub.com/grafana/loki/pkg/storage.(*store).init\n\t/src/loki/pkg/storage/store.go:177\ngithub.com/grafana/loki/pkg/storage.NewStore\n\t/src/loki/pkg/storage/store.go:155\ngithub.com/grafana/loki/pkg/loki.(*Loki).initStore\n\t/src/loki/pkg/loki/modules.go:689\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:136\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_amd64.s:1650\nerror initialising module: store\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_a
