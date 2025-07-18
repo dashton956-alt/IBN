@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  devops-pipeline:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devops-pipeline-tools
+    environment:
+      - ANSIBLE_CONFIG=/app/ansible.cfg
+    volumes:
+      - ./workspace:/workspace
+    working_dir: /workspace
+    restart: "no"
+    # No tty, suitable for CI/CD
+    # No healthcheck needed for short-lived jobs
+    # Resource limits can be set by the orchestrator
