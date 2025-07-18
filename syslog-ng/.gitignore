@@ -1,6 +1,0 @@
-# Ignore logs and sensitive files
-logs/
-*.log
-*.pid
-*.sock
-.env
