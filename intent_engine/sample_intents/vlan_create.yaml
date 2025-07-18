@@ -1,0 +1,5 @@
+intent:
+  type: create_vlan
+  site: siteA
+  vlan_id: 100
+  name: "users_vlan"

@@ -1,0 +1,122 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - monitoring
+
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./config:/etc/loki
+      - ./data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+      - ./promtail/promtail-config.yaml:/etc/promtail/promtail.yaml
+      - ./syslog-ng/logs:/var/log/syslog-ng    
+    command: -config.file=/etc/promtail/promtail.yaml
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - monitoring
+
+  librenms:
+    image: librenms/librenms:latest
+    container_name: librenms
+    hostname: librenms
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=librenms
+      - DB_USER=librenms
+      - DB_PASSWORD=librenms
+      - APP_KEY=base64:nZpDb7bOBN5Ri5G5v6LrHcUKAfvLPKQ6W6+xKIAIkBc=
+      - TZ=UTC
+    depends_on:
+      - mariadb
+      - redis
+      - memcached
+    volumes:
+      - librenms-data:/data
+    networks:
+      - monitoring
+
+  mariadb:
+    image: mariadb:10.5
+    container_name: librenms-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=librenms
+      - MYSQL_USER=librenms
+      - MYSQL_PASSWORD=librenms
+    volumes:
+      - librenms-mysql:/var/lib/mysql
+    networks:
+      - monitoring
+
+  redis:
+    image: redis:alpine
+    container_name: librenms-redis
+    networks:
+      - monitoring
+
+  memcached:
+    image: memcached:alpine
+    container_name: librenms-memcached
+    networks:
+      - monitoring
+
+volumes:
+  grafana-storage:
+  librenms-data:
+  librenms-mysql:
+
+networks:
+  monitoring:

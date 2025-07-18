@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intent Engine Login</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white min-h-screen flex items-center justify-center">
+
+    <!-- Login Container -->
+    <div class="bg-gray-800 p-8 rounded-xl shadow-xl w-full max-w-md relative animate-fade-in">
+        <h2 class="text-3xl font-bold text-center mb-6">🔐 Intent Engine Login</h2>
+
+        <!-- Security Notice Modal Trigger -->
+        <div class="text-sm text-center mb-4">
+            <button onclick="toggleModal()" class="text-blue-400 hover:underline">View Access Policy</button>
+        </div>
+
+        <!-- Login Form -->
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block mb-2 text-sm font-medium">Username</label>
+                <input name="username" type="text" required class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:border-blue-500">
+            </div>
+            <div class="mb-6">
+                <label class="block mb-2 text-sm font-medium">Password</label>
+                <input name="password" type="password" required class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring focus:border-blue-500">
+            </div>
+            <button type="submit" class="w-full py-2 bg-blue-600 hover:bg-blue-700 rounded text-white font-semibold transition duration-200">Login</button>
+        </form>
+
+        <!-- Additional Links -->
+        <div class="text-sm mt-4 text-center">
+            <a href="{% url 'password_reset' %}" class="text-blue-400 hover:underline">Forgot password?</a>
+        </div>
+    </div>
+
+    <!-- Access Policy Modal -->
+    <div id="accessModal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50">
+        <div class="bg-gray-900 text-white p-6 rounded-xl max-w-lg w-full">
+            <h3 class="text-xl font-bold mb-4">🔒 Access Policy</h3>
+            <p class="text-sm mb-4">
+                This system is for authorized use only. Unauthorized access is strictly prohibited and constitutes a criminal offense under the UK Data Protection Act. Activities are monitored and recorded. By logging in, you agree to comply with all security policies.
+            </p>
+            <button onclick="toggleModal()" class="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded text-white">Close</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleModal() {
+            const modal = document.getElementById('accessModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+    </script>
+
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+
+</body>
+</html>

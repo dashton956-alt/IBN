@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intent Networking Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("intentSidebar");
+            sidebar.classList.toggle("translate-x-full");
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 text-gray-900">
+
+    <!-- Top Header -->
+    <header class="w-full bg-white shadow-lg px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <img src="{% static 'images/engine.png' %}" alt="Logo" class="h-10 w-10">
+            <span class="text-2xl font-bold text-gray-800">Intent Networking Engine</span>
+        </div>
+        <button onclick="toggleSidebar()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Open Action Panel
+        </button>
+    </header>
+
+    <!-- Sidebar on Right -->
+    <aside id="intentSidebar" class="fixed top-0 right-0 w-80 h-full bg-white shadow-lg p-6 transform translate-x-full transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold text-gray-800">Actions</h2>
+            <button onclick="toggleSidebar()" class="text-gray-500 hover:text-red-500 text-xl">&times;</button>
+        </div>
+
+        <!-- Submit Intent Form -->
+        <form method="POST" action="{% url 'submit' %}" class="space-y-4 mb-6">
+            {% csrf_token %}
+            <div>
+                <label for="intent_name" class="block text-sm font-medium text-gray-700">Intent Name</label>
+                <input type="text" name="intent_name" id="intent_name" class="w-full px-3 py-2 border border-gray-300 rounded-lg" required>
+            </div>
+            <div>
+                <label for="intent_description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="intent_description" id="intent_description" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg" required></textarea>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                Submit Intent
+            </button>
+        </form>
+
+        <!-- NetBox Population Form -->
+        <form action="{% url 'populate_netbox' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                Run NetBox Population Script
+            </button>
+        </form>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto px-6 py-10">
+        <section class="bg-white rounded-2xl shadow p-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Available Intents</h2>
+            {% if intent_files %}
+                <ul class="space-y-4">
+                    {% for file in intent_files %}
+                        <li class="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm hover:bg-gray-100">
+                            <span class="truncate">{{ file }}</span>
+                            <form action="{% url 'push_intent_to_nso' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="intent_file" value="{{ file }}">
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                    Push to NSO
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">No intent files found.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

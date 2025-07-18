@@ -1,0 +1,34 @@
+<!-- templates/intent_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Intent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+        <h1 class="text-2xl font-bold mb-6">Submit New Intent</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Intent Name</label>
+                <input name="intent_name" type="text" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="intent_description" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Target Device</label>
+                <input name="target_device" type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Desired State</label>
+                <input name="desired_state" type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+            </div>
+            <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Intent Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="flex items-center p-4 bg-white shadow">
+    <img src="{% static 'images/engine.png' %}" alt="Logo" class="h-10 w-10 mr-3">
+    <span class="text-xl font-semibold text-gray-800">Intent Engine</span>
+  </div>
+  {% block content %}{% endblock %}
+</body>
+
+</html>

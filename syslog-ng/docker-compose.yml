@@ -1,0 +1,17 @@
+services:
+  syslog-ng:
+    build:
+      context: ./syslog-ng
+    container_name: syslog-ng
+    ports:
+      - "514:514/udp"
+      - "601:601/tcp"
+    volumes:
+      - ./config:/etc/syslog-ng        # this maps config folder to container's config path
+      - ./logs:/var/log/network        # this maps log output
+    restart: always
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
