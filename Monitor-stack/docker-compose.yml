@@ -64,9 +64,9 @@ services:
     ports:
       - "3100:3100"
     volumes:
-      - ./config:/etc/loki:ro
+      - ./loki/config:/etc/loki:ro
       - ./data:/loki
-    command: -config.file=/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/loki-config.yaml
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--spider", "http://localhost:3100/ready"]
