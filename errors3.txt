@@ -1,0 +1,35 @@
+syslog
+
+syslog-ng: Error setting capabilities, capability management disabled; error='Operation not permitted'
+[2025-07-18T14:26:08.640423] WARNING: Configuration file format is newer than the current version, please specify the current version number (4.6) in the @version directive. syslog-ng will operate at its highest supported version in this mode; config-version='4.8'
+
+
+
+
+promtail
+
+(HTTP code 500) server error - failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error mounting "/host_mnt/home/daniel/IBN/Monitor-stack/syslog-ng/logs" to rootfs at "/var/log/syslog-ng": create mountpoint for /var/log/syslog-ng mount: mkdirat /var/lib/docker/rootfs/overlayfs/c49398fa6b333a0c46cbddbf88530a20da9cb23fad154cb045914eed2ed6df6c/var/log/syslog-ng: read-only file system: unknown
+
+
+loki
+
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138 
+github.com/grafana/dskit/modules.(*Manager).InitModuleServices 
+/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108 github.com/grafana/loki/pkg/loki.(*Loki).Run 
+/src/loki/pkg/loki/loki.go:461 main.main /src/loki/cmd/loki/main.go:110 runtime.main 
+/usr/local/go/src/runtime/proc.go:267 runtime.goexit /usr/local/go/src/runtime/asm_amd64.s:1650 level=warn 
+ts=2025-07-18T14:27:44.120795752Z caller=loki.go:288 msg="global timeout not configured, using default engine 
+timeout (\"5m0s\"). This behavior will change in the next major to always use the default global timeout 
+(\"5m\")." level=info ts=2025-07-18T14:27:44.202168522Z caller=main.go:108 msg="Starting Loki" 
+version="(version=2.9.4, branch=HEAD, revision=f599ebc535)" level=info ts=2025-07-18T14:27:44.202536465Z 
+caller=modules.go:932 msg="Ruler storage is not configured; ruler will not be started." level=info 
+ts=2025-07-18T14:27:44.202998667Z caller=server.go:322 http=[::]:3100 grpc=[::]:9095 msg="server listening on 
+addresses" level=warn ts=2025-07-18T14:27:44.203850518Z caller=cache.go:127 msg="fifocache config is 
+deprecated. use embedded-cache instead" level=warn ts=2025-07-18T14:27:44.203877076Z 
+caller=experimental.go:20 msg="experimental feature in use" feature="In-memory (FIFO) cache - 
+chunksembedded-cache" level=info ts=2025-07-18T14:27:44.204227733Z caller=table_manager.go:136 
+index-store=boltdb-shipper-2022-01-01 msg="uploading tables" level=error ts=2025-07-18T14:27:44.204249705Z 
+caller=log.go:230 msg="error running loki" err="mkdir : no such file or directory\nerror creating index 
+client\ngithub.com/grafana/loki/pkg/storage.(*store).storeForPeriod\n\t/src/loki/pkg/storage/store.go:295\ngithub.com/grafana/loki/pkg/storage.(*store).init\n\t/src/loki/pkg/storage/store.go:177\ngithub.com/grafana/loki/pkg/storage.NewStore\n\t/src/loki/pkg/storage/store.go:155\ngithub.com/grafana/loki/pkg/loki.(*Loki).initStore\n\t/src/loki/pkg/loki/modules.go:689\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:136\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_amd64.s:1650\nerror 
+initialising module: 
+store\ngithub.com/grafana/dskit/modules.(*Manager).initModule\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:138\ngithub.com/grafana/dskit/modules.(*Manager).InitModuleServices\n\t/src/loki/vendor/github.com/grafana/dskit/modules/modules.go:108\ngithub.com/grafana/loki/pkg/loki.(*Loki).Run\n\t/src/loki/pkg/loki/loki.go:461\nmain.main\n\t/src/loki/cmd/loki/main.go:110\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267\nruntime.goexit\n\t/usr/local/go/src/runtime/asm_amd64.s:1650"
