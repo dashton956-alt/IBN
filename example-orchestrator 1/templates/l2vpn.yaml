@@ -1,0 +1,70 @@
+# Copyright 2019-2023 SURF.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# This file describes the "L2VPN" product
+#
+config:
+  summary_forms: true
+name: l2vpn
+type: L2vpn
+tag: L2VPN
+description: "L2VPN"
+product_blocks:
+  - name: virtual_circuit
+    type: VirtualCircuit
+    tag: VC
+    description: "virtual circuit product block"
+    fields:
+      - name: saps
+        type: list
+        description: "Virtual circuit service access points"
+        list_type: SAP
+        min_items: 2
+        max_items: 8
+        required: provisioning
+      - name: speed
+        description: "speed of the L2VPN im Mbit/s"
+        type: int
+        required: provisioning
+        modifiable:
+      - name: speed_policer
+        description: "speed policer active?"
+        type: bool
+        required: provisioning
+        modifiable:
+      - name: ims_id
+        description: "ID of the L2VPN in the inventory management system"
+        type: int
+        required: active
+      - name: nrm_id
+        type: int
+        description: "ID of the L2VPN in the network resource manager"
+        required: active
+  - name: sap
+    type: SAP
+    tag: SAP
+    description: "service access point"
+    fields:
+      - name: port
+        description: "Link to Port product block"
+        type: Port
+        required: provisioning
+      - name: vlan
+        description: "VLAN ID on port"
+        type: int
+        required: provisioning
+      - name: ims_id
+        description: "ID of the SAP in the inventory management system"
+        type: int
+        required: active

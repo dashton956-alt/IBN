@@ -1,0 +1,90 @@
+# Copyright 2019-2023 SURF.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# This file describes the "Port" product
+#
+config:
+  summary_forms: true
+name: node
+type: Node
+tag: NODE
+description: "Network node"
+fixed_inputs:
+  - name: node_type
+    type: enum
+    description: "type of node"
+    enum_type: str
+    values:
+      - "Cisco"
+      - "Nokia"
+product_blocks:
+  - name: node
+    type: Node
+    tag: NODE
+    description: "node product block"
+    fields:
+      - name: role_id
+        description: "IMS ID of role of the node in the network"
+        type: int
+        required: provisioning
+        modifiable:
+      - name: type_id
+        description: "IMS ID of type of the node"
+        type: int
+        required: provisioning
+        modifiable:
+      - name: site_id
+        description: "IMS ID of site where the node is located"
+        type: int
+        required: provisioning
+        modifiable:
+      - name: node_status
+        description: "Operational status of the node"
+        type: enum
+        enum_type: str
+        values:
+          - "offline"
+          - "active"
+          - "planned"
+          - "staged"
+          - "failed"
+          - "inventory"
+          - "decommissioning"
+        required: provisioning
+        modifiable:
+      - name: node_name
+        description: "Unique name of the node"
+        type: str
+        required: provisioning
+        modifiable:
+      - name: node_description
+        description: "Description of the node"
+        type: str
+        modifiable:
+      - name: ims_id
+        description: "ID of the node in the inventory management system"
+        type: int
+        required: active
+      - name: nrm_id
+        type: int
+        description: "ID of the node in the network resource manager"
+        required: active
+      - name: ipv4_ipam_id
+        type: int
+        description: "ID of the node’s iPv4 loopback address in IPAM"
+        required: active
+      - name: ipv6_ipam_id
+        type: int
+        description: "ID of the node’s iPv6 loopback address in IPAM"
+        required: active

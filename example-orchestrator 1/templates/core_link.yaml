@@ -1,0 +1,88 @@
+# Copyright 2019-2023 SURF.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# This file describes the "Core Link" product
+#
+config:
+  summary_forms: true
+name: core_link
+type: CoreLink
+tag: CORE_LINK
+description: "Core link"
+fixed_inputs:
+  - name: speed
+    type: enum
+    enum_type: int
+    values:
+      - 10000
+      - 100000
+    description: "speed of the core link im Mbit/s"
+product_blocks:
+  - name: core_link
+    type: CoreLink
+    tag: CORE_LINK
+    description: "core link product block"
+    fields:
+      - name: ports
+        type: list
+        description: "core ports"
+        list_type: CorePort
+        min_items: 2
+        max_items: 2
+        required: provisioning
+      - name: ims_id
+        description: "ID of the core link in the inventory management system"
+        type: int
+        required: active
+      - name: ipv6_prefix_ipam_id
+        description: "IPAM ID of IP prefix used to number ports of this core link"
+        type: int
+        required: active
+      - name: nrm_id
+        type: int
+        description: "ID of the core link in the network resource manager"
+        required: active
+      - name: under_maintenance
+        type: bool
+        description: "core link under maintenance?"
+        required: provisioning
+        modifiable:
+  - name: core_port
+    type: CorePort
+    tag: CORE_PORT
+    description: "core port product block"
+    fields:
+      - name: port_name
+        description: "Unique name of the port on the device"
+        type: str
+      - name: enabled
+        type: bool
+        description: "is port enabled in inventory management system?"
+        required: provisioning
+      - name: ims_id
+        description: "ID of the port in the inventory management system"
+        type: int
+        required: active
+      - name: nrm_id
+        type: int
+        description: "ID of the port in the network resource manager"
+        required: active
+      - name: node
+        type: Node
+        description: "link to the Node product block the port is residing on"
+        required: provisioning
+      - name: ipv6_ipam_id
+        type: int
+        description: "ID of the port's IPv6 address in IPAM"
+        required: active

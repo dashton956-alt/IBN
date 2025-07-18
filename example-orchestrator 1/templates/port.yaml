@@ -1,0 +1,81 @@
+# Copyright 2019-2023 SURF.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+# This file describes the "Port" product
+#
+config:
+  summary_forms: true
+name: port
+type: Port
+tag: PORT
+description: "Network port"
+fixed_inputs:
+  - name: speed
+    type: enum
+    enum_type: int
+    values:
+      - 1000
+      - 10000
+      - 40000
+      - 100000
+      - 400000
+    description: "speed of the port im Mbit/s"
+product_blocks:
+  - name: port
+    type: Port
+    tag: PORT
+    description: "port product block"
+    fields:
+      - name: port_name
+        description: "Unique name of the port on the device"
+        type: str
+        required: provisioning
+      - name: port_type
+        description: "Type of the port"
+        type: str
+        required: provisioning
+      - name: port_description
+        description: "Description of the port"
+        type: str
+        modifiable:
+      - name: port_mode
+        type: str
+        description: "Mode of the port, either untagged, tagged or a link_member (in an aggregate)"
+        required: provisioning
+      - name: auto_negotiation
+        type: bool
+        description: "is Ethernet auto negotiation enabled or not"
+        required: provisioning
+        modifiable:
+      - name: lldp
+        type: bool
+        description: "is Link Llayer Discovery Protocol enabled or not"
+        required: provisioning
+        modifiable:
+      - name: enabled
+        type: bool
+        description: "is port enabled in inventory management system?"
+        required: provisioning
+      - name: node
+        type: Node
+        description: "link to the Node product block the port is residing on"
+        required: provisioning
+      - name: ims_id
+        description: "ID of the node in the inventory management system"
+        type: int
+        required: provisioning
+      - name: nrm_id
+        type: int
+        description: "ID of the node in the network resource manager"
+        required: active

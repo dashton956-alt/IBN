@@ -1,0 +1,44 @@
+
+version: '3.8'
+
+# Example integration with monitoring stack
+services:
+  # Your existing monitoring services would go here
+  # prometheus, grafana, etc.
+  
+  # Add Ollama to your monitoring stack
+  ollama:
+    build: ./ollama
+    container_name: ollama-ai
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_PORT=11434
+    restart: unless-stopped
+    networks:
+      - monitoring-network
+    labels:
+      - "prometheus.io/scrape=true"
+      - "prometheus.io/port=11434"
+      - "prometheus.io/path=/metrics"
+
+  # Optional: Ollama monitoring with Prometheus
+  ollama-exporter:
+    image: ollama/ollama:latest
+    container_name: ollama-exporter
+    command: ["sh", "-c", "while true; do curl -s http://ollama:11434/api/tags | jq '.models | length' | curl -X POST --data-binary @- http://pushgateway:9091/metrics/job/ollama; sleep 60; done"]
+    depends_on:
+      - ollama
+    networks:
+      - monitoring-network
+
+volumes:
+  ollama_data:
+    driver: local
+
+networks:
+  monitoring-network:
+    external: true
