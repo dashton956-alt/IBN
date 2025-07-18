@@ -50,9 +50,24 @@ docker compose --env-file .env up -d
 docker compose down
 ```
 
-### 4. Persistent Data
+### 4. Persistent Data & Log Directory
 
 Prometheus, Grafana, LibreNMS, and MariaDB use named volumes for data persistence. Data is retained across restarts and upgrades.
+
+
+#### Syslog-ng & Promtail Log Directory
+
+Syslog-ng writes logs to the host directory `./syslog-ng/logs`, which is also mounted read-only into the Promtail container for log shipping to Loki.
+
+**Before starting the stack, you must ensure this directory exists.**
+
+You can do this automatically by running the provided script:
+
+```sh
+sh ./check_syslog_logs_dir.sh
+```
+
+This script checks for the log directory and creates it if needed. Run it any time before `docker compose up` to avoid mount errors.
 
 ### 5. Health Checks & Resource Limits
 

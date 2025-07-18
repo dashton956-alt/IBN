@@ -23,7 +23,8 @@ docker compose up -d --build
 - The `config` directory is mounted read-only into the container.
 
 ### 3. Log Storage
-- Logs are written to the `logs/` directory (mapped to `/var/log/network` in the container).
+- Logs are written to the `logs/` directory in this folder (mapped to `/var/log/network` in the container).
+- This directory must exist on the host for syslog-ng to write logs and for Promtail (in the Monitor-stack) to read them.
 - Log rotation is handled by logrotate (see `logrotate-syslog-ng`).
 
 ### 4. Healthcheck
