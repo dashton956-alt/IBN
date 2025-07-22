@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY secrets_service.py ./
 
-CMD ["python", "secrets_service.py"]
+CMD ["uvicorn", "secrets_service:app", "--host", "0.0.0.0", "--port", "8083"]
