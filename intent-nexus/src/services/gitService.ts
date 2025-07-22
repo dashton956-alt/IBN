@@ -1,5 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import { API_URLS } from "@/config/urlsCentral";
 
 export interface GitMergeRequest {
   id: string;
@@ -18,7 +19,7 @@ export class GitService {
 
   constructor() {
     // These should be configured via environment variables
-    this.baseUrl = import.meta.env.VITE_GIT_API_URL || 'https://gitlab.com/api/v4';
+    this.baseUrl = API_URLS.gitApiUrl;
     this.token = import.meta.env.VITE_GIT_TOKEN || '';
     this.projectId = import.meta.env.VITE_GIT_PROJECT_ID || '';
   }

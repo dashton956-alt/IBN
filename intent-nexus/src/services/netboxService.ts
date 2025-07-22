@@ -1,34 +1,20 @@
 import { supabase } from "@/integrations/supabase/client";
-import { URLS } from "@/config/urls";
-import { secretsService, SECRET_KEYS } from "@/config/secrets";
+import { NETBOX_API_URL, NETBOX_API_TOKEN, API_URLS } from "@/config/urlsCentral";
 
 // NetBox API Integration Service
 export class NetBoxService {
-  private baseUrl: string;
-  private apiToken: string | null = null;
-
-  constructor() {
-    this.baseUrl = URLS.NETBOX.API_BASE_URL;
-  }
-
-  // Initialize service with API token from secrets
-  private async initialize() {
-    if (!this.apiToken) {
-      this.apiToken = await secretsService.getSecret(SECRET_KEYS.NETBOX_API_TOKEN);
-    }
-  }
+  private baseUrl: string = NETBOX_API_URL;
+  private apiToken: string = NETBOX_API_TOKEN;
 
   // Fetch devices from NetBox
   async fetchDevices() {
     try {
-      await this.initialize();
-
       if (!this.apiToken) {
         console.warn('NetBox API token not configured, using mock data');
         return this.getMockDevices();
       }
 
-      const response = await fetch(`${this.baseUrl}${URLS.NETBOX.ENDPOINTS.DEVICES}`, {
+      const response = await fetch(API_URLS.devices, {
         headers: {
           'Authorization': `Token ${this.apiToken}`,
           'Content-Type': 'application/json',
@@ -109,7 +95,7 @@ export class NetBoxService {
 
   async addChangeNumber(intentId: string, changeNumber: string, description: string) {
     try {
-      await this.initialize();
+      // Initialization no longer needed; token is set from config
 
       if (!this.apiToken) {
         console.warn('NetBox API token not configured, storing change number locally');
@@ -128,7 +114,7 @@ export class NetBoxService {
         }]
       };
 
-      const response = await fetch(`${this.baseUrl}${URLS.NETBOX.ENDPOINTS.JOURNAL_ENTRIES}`, {
+      const response = await fetch(API_URLS.journalEntries, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${this.apiToken}`,
@@ -178,7 +164,7 @@ export class NetBoxService {
     deviceRole?: string;
   }): Promise<string> {
     try {
-      await this.initialize();
+      // Initialization no longer needed; token is set from config
       
       let substitutedTemplate = template;
       const netboxData = await this.getVariableData(variables, context);
@@ -260,7 +246,7 @@ export class NetBoxService {
       return [];
     }
 
-    const response = await fetch(`${this.baseUrl}/dcim/sites/`, {
+    const response = await fetch(API_URLS.sites, {
       headers: {
         'Authorization': `Token ${this.apiToken}`,
         'Content-Type': 'application/json',

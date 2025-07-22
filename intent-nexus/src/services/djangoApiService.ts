@@ -1,5 +1,6 @@
 
 import { toast } from "@/hooks/use-toast";
+import { NETBOX_API_URL } from "@/config/urlsCentral";
 
 // Django API Service for backend integration
 export class DjangoApiService {
@@ -9,7 +10,7 @@ export class DjangoApiService {
   private refreshPromise: Promise<void> | null = null;
 
   constructor() {
-    this.baseUrl = 'http://localhost:8000/api';
+    this.baseUrl = NETBOX_API_URL;
     console.log('DjangoApiService initialized with baseUrl:', this.baseUrl);
   }
 

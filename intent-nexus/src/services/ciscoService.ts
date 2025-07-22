@@ -1,6 +1,6 @@
 
 
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, API_URLS } from "@/config/urlsCentral";
 
 // Cisco Network Service Orchestrator Integration Service
 export class CiscoService {
@@ -10,9 +10,9 @@ export class CiscoService {
 
   constructor() {
     // Use Vite environment variables (prefixed with VITE_) or fallback values
-    this.baseUrl = import.meta.env.VITE_CISCO_API_URL || "https://your-cisco-instance.com:8080/restconf";
-    this.username = import.meta.env.VITE_CISCO_USERNAME || "YOUR_CISCO_USERNAME";
-    this.password = import.meta.env.VITE_CISCO_PASSWORD || "YOUR_CISCO_PASSWORD";
+    this.baseUrl = API_URLS.ciscoApiUrl;
+    this.username = API_URLS.ciscoUsername;
+    this.password = API_URLS.ciscoPassword;
   }
 
   // Deploy configuration to Cisco

@@ -1,45 +1,34 @@
+
 # Intent Based Networking (IBN) Platform
 
-This repository provides a complete setup for an Intent Based Networking (IBN) service, including orchestration, monitoring, automation, and supporting infrastructure. The platform is modular and designed for extensibility, rapid prototyping, and production deployment.
+This repository provides a modular, production-ready Intent Based Networking (IBN) platform for network automation, orchestration, monitoring, and analytics. It supports rapid prototyping, extensibility, and secure deployment.
+
+## Key Features
+- Intent creation, approval, scheduling, deployment, rollback
+- GitOps workflow (branch, config, merge request)
+- Role-based access control (RBAC)
+- SSO (Single Sign-On) support
+- Audit logging and error monitoring
+- API documentation (Swagger/OpenAPI)
+- Rate limiting, CORS, and security headers
+- Background task queue (Celery)
+- Email/notification system
+- Static/media file handling
+- Automated DB backups and migrations
+- API versioning
+- Enhanced admin dashboard
+- Monitoring stack integration (Grafana, Prometheus, Loki)
 
 ## Repository Structure
 
-- **CI-CD-pipeline-Devops-docker/**
-  - Contains Docker and CI/CD pipeline resources for automating builds, tests, and deployments.
-  - Includes a `docker-compose.yml` for DevOps automation and a `workspace/` for pipeline scripts.
-
-- **example-orchestrator 1/**
-  - The main IBN orchestrator service, including:
-    - Python source code for orchestration logic, intent processing, and API endpoints.
-    - `docker/` subfolders for containerized microservices (federation, lso, netbox, nginx, orchestrator, orchestrator-ui, etc.).
-    - `migrations/` for database schema management.
-    - `products/`, `services/`, `workflows/` for intent models, business logic, and workflow automation.
-    - `templates/` and `translations/` for intent templates and localization.
-
-- **intent_engine/**
-  - Django-based intent engine for managing, validating, and processing network intents.
-  - Contains Django apps, models, migrations, and static files for the intent engine.
-  - `sample_intents/` provides example intent YAMLs.
-
-- **intent-nexus/**
-  - Frontend and supporting backend for the IBN platform.
-  - Contains a modern web UI (likely Vue/React) and supporting configuration for frontend development.
-  - `django_backend/` for backend API integration.
-
-- **Monitor-stack/**
-  - An alternative or legacy monitoring stack (see also `monitoring-stack/`).
-  - Contains scripts and configuration for monitoring services, including Grafana, Prometheus, Loki, and syslog-ng.
-
-- **monitoring-stack/**
-  - The main monitoring stack for the IBN platform.
-  - Includes Docker Compose setup for Grafana, Prometheus, Loki, Promtail, and syslog-ng.
-  - Contains configuration, persistent data, and logs for monitoring services.
-
-- **onap/**
-  - Contains ONAP (Open Network Automation Platform) resources, such as OOM (ONAP Operations Manager) for integration or reference.
-
-- **temporal-python-demo/**
-  - Example/demo code for integrating Temporal workflows with Python.
+- **CI-CD-pipeline-Devops-docker/**: CI/CD and DevOps automation
+- **example-orchestrator 1/**: Main orchestrator, microservices, workflows
+- **intent_engine/**: Django-based intent engine and API
+- **intent-nexus/**: Web frontend and backend, SSO, RBAC, API docs
+- **Monitor-stack/**: Legacy monitoring stack
+- **monitoring-stack/**: Main monitoring stack (Grafana, Prometheus, Loki, etc.)
+- **onap/**: ONAP integration resources
+- **temporal-python-demo/**: Temporal workflow demo
 
 ## Getting Started
 
@@ -49,15 +38,51 @@ This repository provides a complete setup for an Intent Based Networking (IBN) s
    cd IBN
    ```
 
-2. **Review and configure environment variables** as needed in each stack (see `Monitor-stack/` and `monitoring-stack/`).
+2. **Configure environment variables:**
+   - Copy `.env.example` to `.env` in each stack
+   - Edit with your secrets, URLs, and credentials
 
 3. **Start the monitoring stack:**
    ```sh
    cd monitoring-stack
-   docker-compose up -d
+   docker compose up -d
    ```
 
 4. **Start the orchestrator and intent engine:**
+   ```sh
+   cd example-orchestrator 1
+   docker compose up -d
+   cd ../intent_engine
+   python manage.py migrate
+   python manage.py runserver
+   ```
+
+5. **Start the frontend (intent-nexus):**
+   ```sh
+   cd intent-nexus
+   npm install
+   npm run dev
+   # Or use Docker
+   docker compose up -d
+   ```
+
+## Security & SSO
+- RBAC and SSO are supported in `intent-nexus` and `django_backend`.
+- See `SECURITY.md` and each stack’s README for setup and configuration.
+
+## Monitoring & Logging
+- Integrated with `monitoring-stack` for metrics, logs, and alerts.
+- Audit logging enabled for all critical actions.
+
+## API Documentation
+- Swagger/OpenAPI docs available in `intent-nexus` and `django_backend`.
+
+## Contributing
+- Fork the repo, create a feature branch, and submit a pull request.
+- See code comments and each stack’s README for extension points.
+
+## License
+See main repo LICENSE
    - See `example-orchestrator 1/README.md` and `intent_engine/README.md` for details.
 
 5. **Access the UI:**

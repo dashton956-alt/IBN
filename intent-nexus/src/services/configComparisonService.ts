@@ -1,4 +1,4 @@
-import { URLS } from '@/config/urls';
+import { API_URLS } from '@/config/urlsCentral';
 
 export interface ConfigDifference {
   path: string;
@@ -26,7 +26,7 @@ class ConfigComparisonService {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = URLS.CONFIG_COMPARISON.BASE_URL;
+    this.baseUrl = API_URLS.configComparisonBaseUrl;
   }
 
   async compareDeviceConfig(deviceId: string, deviceIp: string): Promise<ConfigComparison> {

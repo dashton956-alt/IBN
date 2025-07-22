@@ -1,5 +1,4 @@
-import { URLS } from '@/config/urls';
-import { secretsService, SECRET_KEYS } from '@/config/secrets';
+import { NETBOX_API_URL, NETBOX_API_TOKEN, API_URLS } from '@/config/urlsCentral';
 
 export interface NetBoxVariable {
   name: string;
@@ -59,28 +58,19 @@ export interface NetBoxVLAN {
 }
 
 class NetBoxGraphQLService {
-  private apiToken: string | null = null;
+  private apiToken: string = NETBOX_API_TOKEN;
 
   constructor() {
-    // Configuration is now handled by the centralized urls and secrets config
-  }
-
-  // Initialize service with API token from secrets
-  private async initialize() {
-    if (!this.apiToken) {
-      this.apiToken = await secretsService.getSecret(SECRET_KEYS.NETBOX_API_TOKEN);
-    }
+    // Uses centralized config from urlsCentral.ts
   }
 
   private async makeGraphQLQuery(query: string, variables?: Record<string, any>) {
     try {
-      await this.initialize();
-
       if (!this.apiToken) {
         throw new Error('NetBox API token not configured');
       }
 
-      const response = await fetch(URLS.NETBOX.GRAPHQL_URL, {
+      const response = await fetch(`${NETBOX_API_URL.replace('/api','')}/graphql`, {
         method: 'POST',
         headers: {
           'Authorization': `Token ${this.apiToken}`,
@@ -111,13 +101,11 @@ class NetBoxGraphQLService {
 
   private async makeRestAPICall(endpoint: string, params?: Record<string, any>) {
     try {
-      await this.initialize();
-
       if (!this.apiToken) {
         throw new Error('NetBox API token not configured');
       }
 
-      const url = new URL(`${URLS.NETBOX.API_BASE_URL}${endpoint}`);
+      const url = new URL(`${NETBOX_API_URL}${endpoint}`);
       if (params) {
         Object.entries(params).forEach(([key, value]) => {
           if (value !== undefined && value !== null) {
@@ -289,7 +277,7 @@ class NetBoxGraphQLService {
       if (filters?.role) params.role = filters.role;
       if (filters?.name) params.name__icontains = filters.name;
 
-      const devices = await this.makeRestAPICall('/dcim/devices/', params);
+      const devices = await this.makeRestAPICall(API_URLS.devices, params);
       return devices;
     } catch (error) {
       console.error('Error fetching devices:', error);
@@ -299,7 +287,7 @@ class NetBoxGraphQLService {
 
   async getSites(): Promise<NetBoxSite[]> {
     try {
-      return await this.makeRestAPICall('/dcim/sites/');
+      return await this.makeRestAPICall(API_URLS.sites);
     } catch (error) {
       console.error('Error fetching sites:', error);
       return [];
@@ -309,7 +297,7 @@ class NetBoxGraphQLService {
   async getVLANs(siteId?: number): Promise<NetBoxVLAN[]> {
     try {
       const params = siteId ? { site_id: siteId } : {};
-      return await this.makeRestAPICall('/ipam/vlans/', params);
+      return await this.makeRestAPICall(API_URLS.vlans, params);
     } catch (error) {
       console.error('Error fetching VLANs:', error);
       return [];
@@ -318,7 +306,7 @@ class NetBoxGraphQLService {
 
   async getDeviceRoles(): Promise<Array<{ name: string; slug: string }>> {
     try {
-      return await this.makeRestAPICall('/dcim/device-roles/');
+      return await this.makeRestAPICall(`${NETBOX_API_URL}/dcim/device-roles/`);
     } catch (error) {
       console.error('Error fetching device roles:', error);
       return [];
@@ -333,7 +321,7 @@ class NetBoxGraphQLService {
     description?: string;
   }>> {
     try {
-      return await this.makeRestAPICall(`/dcim/interfaces/`, { device_id: deviceId });
+      return await this.makeRestAPICall(API_URLS.interfaces, { device_id: deviceId });
     } catch (error) {
       console.error('Error fetching device interfaces:', error);
       return [];
@@ -342,7 +330,7 @@ class NetBoxGraphQLService {
 
   async getDeviceConfigContext(deviceId: number): Promise<Record<string, any>> {
     try {
-      const device = await this.makeRestAPICall(`/dcim/devices/${deviceId}/`);
+      const device = await this.makeRestAPICall(`${API_URLS.devices}${deviceId}/`);
       return device.config_context || {};
     } catch (error) {
       console.error('Error fetching device config context:', error);
@@ -357,9 +345,9 @@ class NetBoxGraphQLService {
   }> {
     try {
       const [devices, sites, vlans] = await Promise.all([
-        this.makeRestAPICall('/dcim/devices/', { q: query }),
-        this.makeRestAPICall('/dcim/sites/', { q: query }),
-        this.makeRestAPICall('/ipam/vlans/', { q: query })
+        this.makeRestAPICall(API_URLS.devices, { q: query }),
+        this.makeRestAPICall(API_URLS.sites, { q: query }),
+        this.makeRestAPICall(API_URLS.vlans, { q: query })
       ]);
 
       return {

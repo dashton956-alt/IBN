@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/config/urlsCentral";
 import { netboxService } from "@/services/netboxService";
 import { ciscoService } from "@/services/ciscoService";
 import { useErrorHandler } from "./useErrorHandler";
