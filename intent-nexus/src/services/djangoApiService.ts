@@ -1,6 +1,7 @@
 
 import { toast } from "@/hooks/use-toast";
 import { NETBOX_API_URL } from "@/config/urlsCentral";
+import { secretsService, SECRET_KEYS } from "@/config/secrets";
 
 // Django API Service for backend integration
 export class DjangoApiService {
@@ -12,6 +13,10 @@ export class DjangoApiService {
   constructor() {
     this.baseUrl = NETBOX_API_URL;
     console.log('DjangoApiService initialized with baseUrl:', this.baseUrl);
+  }
+
+  async getNetboxToken(): Promise<string | null> {
+    return await secretsService.getSecret(SECRET_KEYS.NETBOX_API_TOKEN);
   }
 
   // Set authentication token

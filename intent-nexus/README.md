@@ -126,3 +126,31 @@ See main repo LICENSE
 Place your screenshots in `docs/screenshots/` (create the folder if needed).
 
 ---
+
+# Secrets Management & Docker Integration
+
+## Secrets Docker Service
+- A dedicated secrets management service is provided in `secrets-docker/`.
+- Secrets are stored securely in `.env` inside the Docker container.
+- The frontend retrieves secrets via HTTP requests to the secrets service (see `src/config/secrets.ts`).
+
+### How to Use
+1. Build and run the secrets Docker container:
+   ```sh
+   cd secrets-docker
+   docker build -t ibn-secrets .
+   docker run -d --name ibn-secrets -p 8000:8000 --env-file .env ibn-secrets
+   ```
+2. Add your secrets to `.env` in `secrets-docker/` (see `.env.example`).
+3. The frontend will request secrets from `http://secrets-docker:8000/get-secret`.
+
+## Final Production Checklist
+- [x] All secrets are stored and retrieved via the secrets Docker service.
+- [x] No secrets are hardcoded in the codebase.
+- [x] `.env` files are excluded from version control.
+- [x] All environment variables and API URLs are centralized in `src/config/urlsCentral.ts`.
+- [x] All dependencies are up to date and secure.
+- [x] CI/CD, linting, and tests are passing.
+- [x] Documentation and onboarding are complete.
+
+---

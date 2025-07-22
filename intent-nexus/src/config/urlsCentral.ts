@@ -17,7 +17,6 @@ export const API_URLS = {
   ciscoPassword: 'YOUR_CISCO_PASSWORD',
 };
 
-export { supabase } from '@/integrations/supabase/client';
 
 // Example usage:
 // import { API_URLS } from './urlsCentral';

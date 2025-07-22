@@ -1,5 +1,4 @@
 
-import { supabase } from "@/integrations/supabase/client";
 import { DryRunResult, ValidationResult, ConfigurationRollback } from "@/types/networkOperations";
 import { ollamaService } from "./ollamaService";
 

@@ -1,5 +1,5 @@
 
-import { supabase } from "@/integrations/supabase/client";
+import axios from "axios";
 
 // Centralized secrets management service
 class SecretsService {
@@ -12,21 +12,11 @@ class SecretsService {
     }
 
     try {
-      const { data, error } = await supabase.functions.invoke('get-secret', {
-        body: { key }
-      });
-
-      if (error) {
-        console.error(`Error retrieving secret ${key}:`, error);
-        return null;
+      const response = await axios.post("http://secrets-docker:8000/get-secret", { key });
+      if (response.data?.value) {
+        this.cache.set(key, response.data.value);
+        return response.data.value;
       }
-
-      if (data?.value) {
-        // Cache the secret for this session
-        this.cache.set(key, data.value);
-        return data.value;
-      }
-
       return null;
     } catch (error) {
       console.error(`Error retrieving secret ${key}:`, error);

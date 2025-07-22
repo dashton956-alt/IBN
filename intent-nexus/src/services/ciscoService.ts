@@ -1,6 +1,6 @@
 
 
-import { supabase, API_URLS } from "@/config/urlsCentral";
+import { API_URLS } from "@/config/urlsCentral";
 
 // Cisco Network Service Orchestrator Integration Service
 export class CiscoService {

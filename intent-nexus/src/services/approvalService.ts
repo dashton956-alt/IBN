@@ -1,5 +1,4 @@
 
-import { supabase } from "@/integrations/supabase/client";
 import { ApprovalWorkflow } from "@/types/networkOperations";
 import { webhookService } from "./webhookService";
 
