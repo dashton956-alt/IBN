@@ -17,6 +17,6 @@ services:
     ports:
       - "8083:8000"
     environment:
-      VAULT_URL: "http://localhost:8200"
+      VAULT_URL: "http://vault:8200"
     depends_on:
       - vault
