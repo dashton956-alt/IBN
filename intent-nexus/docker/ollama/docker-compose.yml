@@ -12,6 +12,8 @@ services:
     environment:
       - OLLAMA_HOST=0.0.0.0
       - OLLAMA_PORT=11434
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=root
     restart: unless-stopped
     networks:
       - ai-network

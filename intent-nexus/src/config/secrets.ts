@@ -12,10 +12,18 @@ class SecretsService {
     }
 
     try {
-      const response = await axios.post("http://secrets-docker:8000/get-secret", { key });
-      if (response.data?.value) {
-        this.cache.set(key, response.data.value);
-        return response.data.value;
+      // HashiCorp Vault HTTP API: assumes KV secrets engine at 'secret/'
+      // VAULT_ADDR and VAULT_TOKEN should be set in environment or config
+      const VAULT_ADDR = process.env.VAULT_ADDR || "http://localhost:8200";
+      const VAULT_TOKEN = process.env.VAULT_TOKEN || "root";
+      const url = `${VAULT_ADDR}/v1/secret/data/${key}`;
+      const response = await axios.get(url, {
+        headers: { "X-Vault-Token": VAULT_TOKEN }
+      });
+      const value = response.data?.data?.data?.value;
+      if (value) {
+        this.cache.set(key, value);
+        return value;
       }
       return null;
     } catch (error) {
