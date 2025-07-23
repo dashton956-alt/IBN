@@ -40,12 +40,22 @@ docker compose exec web python manage.py createsuperuser
 ---
 
 ## Environment Variables
+
 See `.env.example` for all required variables:
 - Django settings (DEBUG, SECRET_KEY, ALLOWED_HOSTS)
 - Database (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)
 - Redis (REDIS_HOST, REDIS_PORT)
 - Email (EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS)
-- SSO (SSO_CLIENT_ID, SSO_CLIENT_SECRET, SSO_PROVIDER_URL)
+- OIDC/Keycloak integration:
+  - OIDC_RP_CLIENT_ID
+  - OIDC_RP_CLIENT_SECRET
+  - OIDC_OP_AUTHORIZATION_ENDPOINT
+  - OIDC_OP_TOKEN_ENDPOINT
+  - OIDC_OP_USER_ENDPOINT
+  - OIDC_OP_JWKS_ENDPOINT
+  - OIDC_OP_LOGOUT_ENDPOINT
+
+All API and admin access is protected by OIDC authentication. Only users authenticated via Keycloak can access protected endpoints.
 
 ---
 

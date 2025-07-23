@@ -1,5 +1,15 @@
 # Monitoring Stack for Intent-Based Networking (IBN)
 
+---
+**Production Onboarding & Operations**
+
+- See the central onboarding guide (`onboarding/README.md`) and use the Linux bootstrap script (`onboarding/bootstrap.sh`) for one-shot setup.
+- All secrets, environment variables, and configuration should be managed via Vault (see Vault onboarding docs).
+- For SSO and RBAC, integrate with the central Keycloak server as described in the main project README.
+- For backup, restore, and scaling procedures, see the operational section in the onboarding guide.
+
+---
+
 This stack provides log analysis and observability for IBN systems using Loki, Promtail, Grafana, Prometheus, and syslog-ng.
 
 ## Features

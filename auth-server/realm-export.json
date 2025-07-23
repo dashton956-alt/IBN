@@ -1,0 +1,41 @@
+{
+  "realm": "IBN",
+  "enabled": true,
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "IBN",
+      "lastName": "Admin",
+      "email": "admin@ibn.local",
+      "credentials": [
+        { "type": "password", "value": "admin", "temporary": false }
+      ],
+      "realmRoles": ["admin"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "admin" },
+      { "name": "engineer" },
+      { "name": "viewer" },
+      { "name": "approver" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "ibn-frontend",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["*"]
+    },
+    {
+      "clientId": "ibn-backend",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "backend-secret",
+      "redirectUris": ["*"]
+    }
+  ]
+}
