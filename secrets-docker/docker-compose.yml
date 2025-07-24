@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: ibn-vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8200"
+    cap_add:
+      - IPC_LOCK
+
+  vault-ui:
+    image: djenriquez/vault-ui:latest
+    container_name: ibn-vault-ui
+    ports:
+      - "8083:8000"
+    environment:
+      VAULT_URL: "http://vault:8200"
+    depends_on:
+      - vault

@@ -1,3 +1,25 @@
+# Secrets Management for IBN (Vault + Vault-UI)
+
+This directory now uses HashiCorp Vault and Vault-UI for secure secrets management with a web GUI.
+
+## Usage
+
+1. Start Vault and Vault-UI:
+   ```sh
+   docker compose up -d
+   ```
+
+2. Access the Vault UI at [http://localhost:8083](http://localhost:8083)
+   (Login token: `root` for dev mode)
+
+3. Store and manage your secrets using the web interface.
+
+4. Update your applications to fetch secrets from Vault.
+
+## Notes
+
+- The previous FastAPI-based secrets service is deprecated.
+- All secrets should be managed in Vault for security and auditability.
 # Secrets Docker Service for IBN
 
 This service provides secure storage and retrieval of secrets (API tokens, passwords, etc.) for the Intent-Nexus platform using a simple FastAPI backend in Docker.
