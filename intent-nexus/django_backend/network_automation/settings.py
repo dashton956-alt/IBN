@@ -1,3 +1,15 @@
+# OIDC Role Mapping: Map Keycloak roles to Django groups
+OIDC_CREATE_USER = True
+OIDC_USERNAME_FIELD = 'preferred_username'
+OIDC_USERINFO_CALLBACK = 'network_automation.oidc.role_mapper'
+
+# Example mapping: Keycloak realm roles to Django groups
+OIDC_ROLE_MAP = {
+    'admin': 'Admin',
+    'engineer': 'Engineer',
+    'viewer': 'Viewer',
+    'approver': 'Approver',
+}
 
 import os
 from decouple import config
@@ -5,11 +17,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
+SECRET_KEY = config('SECRET_KEY')  # Must be set in Vault or environment for production
 
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='your.production.domain').split(',')
 
 DJANGO_APPS = [
     'daphne',
@@ -77,10 +89,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME', default='network_automation'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='password'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5433'),
+    'USER': config('DB_USER'),
+    'PASSWORD': config('DB_PASSWORD'),
+    'HOST': config('DB_HOST'),
+    'PORT': config('DB_PORT'),
     }
 }
 
@@ -91,9 +103,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # DRF Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -116,10 +130,25 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
 }
 
+# OIDC/Keycloak integration
+INSTALLED_APPS += ['mozilla_django_oidc']
+
+OIDC_RP_CLIENT_ID = config('OIDC_RP_CLIENT_ID', default='ibn-backend')
+OIDC_RP_CLIENT_SECRET = config('OIDC_RP_CLIENT_SECRET', default='backend-secret')
+OIDC_OP_AUTHORIZATION_ENDPOINT = config('OIDC_OP_AUTHORIZATION_ENDPOINT', default='http://auth-server:8080/realms/IBN/protocol/openid-connect/auth')
+OIDC_OP_TOKEN_ENDPOINT = config('OIDC_OP_TOKEN_ENDPOINT', default='http://auth-server:8080/realms/IBN/protocol/openid-connect/token')
+OIDC_OP_USER_ENDPOINT = config('OIDC_OP_USER_ENDPOINT', default='http://auth-server:8080/realms/IBN/protocol/openid-connect/userinfo')
+OIDC_OP_JWKS_ENDPOINT = config('OIDC_OP_JWKS_ENDPOINT', default='http://auth-server:8080/realms/IBN/protocol/openid-connect/certs')
+OIDC_OP_LOGOUT_ENDPOINT = config('OIDC_OP_LOGOUT_ENDPOINT', default='http://auth-server:8080/realms/IBN/protocol/openid-connect/logout')
+OIDC_RP_SIGN_ALGO = 'RS256'
+LOGIN_URL = '/oidc/authenticate/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 # CORS Settings - Updated to allow frontend connection
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173').split(',')
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all origins in development
+CORS_ALLOW_ALL_ORIGINS = False  # Never allow all origins in production
 
 # Channels Settings
 CHANNEL_LAYERS = {

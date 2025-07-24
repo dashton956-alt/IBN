@@ -1,6 +1,9 @@
 global:
   scrape_interval: 15s
 
+rule_files:
+  - 'alert.rules.yml'
+
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
@@ -13,3 +16,32 @@ scrape_configs:
   - job_name: 'cadvisor'
     static_configs:
       - targets: ['cadvisor:8080']
+
+  - job_name: 'django-backend'
+    static_configs:
+      - targets: ['django-backend:8000']  # Update with your backend service name/port
+
+  - job_name: 'intent-nexus-frontend'
+    static_configs:
+      - targets: ['intent-nexus-frontend:80']  # Update as needed
+
+  - job_name: 'librenms'
+    static_configs:
+      - targets: ['librenms:8668']
+
+  # Network device monitoring (choose one option below)
+
+  # Option 1: Scrape SNMP metrics via snmp_exporter (uncomment if using snmp_exporter)
+  # - job_name: 'network-devices-snmp'
+  #   static_configs:
+  #     - targets: ['router1:161', 'switch1:161']
+  #   metrics_path: /snmp
+  #   params:
+  #     module: [if_mib]
+
+  # Option 2: Scrape metrics from a network controller (e.g., Cisco Catalyst Center)
+  - job_name: 'network-controller'
+    static_configs:
+      - targets: ['catalyst-center:port']  # Replace with your controller's hostname/IP and port
+    # metrics_path: /api/metrics  # Update if your controller exposes a metrics endpoint
+    # scheme: https  # Uncomment if using HTTPS

@@ -1,0 +1,80 @@
+pipeline {
+    agent any
+    environment {
+        NETBOX_API_TOKEN = credentials('netbox-api-token')
+    }
+    parameters {
+        string(name: 'CHANGE_NUMBER', defaultValue: '', description: 'NetBox Change Number')
+        string(name: 'BRANCH_NAME', defaultValue: '', description: 'Branch name for this change')
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Fetch GitHub Token from Vault') {
+            steps {
+                script {
+                    env.GITHUB_TOKEN = sh(
+                        script: 'vault kv get -field=token secret/ci/github-token',
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
+        stage('Syntax & Lint Check') {
+            parallel {
+                stage('YAML Lint') {
+                    steps {
+                        sh 'find . -name "*.yml" -o -name "*.yaml" | xargs yamllint'
+                    }
+                }
+                stage('ShellCheck') {
+                    steps {
+                        sh 'find . -name "*.sh" | xargs shellcheck'
+                    }
+                }
+                stage('Dockerfile Lint') {
+                    steps {
+                        sh 'find . -name "Dockerfile" | xargs hadolint'
+                    }
+                }
+            }
+        }
+        stage('Create Branch & PR') {
+            steps {
+                script {
+                    def branch = params.BRANCH_NAME ?: "change-${params.CHANGE_NUMBER}"
+                    sh "git checkout -b ${branch}"
+                    sh "git push https://${env.GITHUB_TOKEN}@github.com/<your-org>/<your-private-repo>.git ${branch}"
+                    sh "GITHUB_TOKEN=${env.GITHUB_TOKEN} gh pr create --base main --head ${branch} --title 'Change ${params.CHANGE_NUMBER}' --body 'Automated change for NetBox change ${params.CHANGE_NUMBER}'"
+                }
+            }
+        }
+        stage('Push NetBox Change Number') {
+            steps {
+                sh 'echo "NetBox Change Number: ${params.CHANGE_NUMBER}" > netbox_change.txt'
+                sh 'git add netbox_change.txt && git commit -m "Add NetBox change number" || true'
+                sh 'git push origin HEAD'
+            }
+        }
+        stage('Deploy on Merge to Main') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    // Example: push config to controller or ONOS
+                    sh 'echo "Deploying config to controller/ONOS..."'
+                    // sh './deploy_to_controller.sh'
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            echo 'Pipeline failed. Check syntax and lint errors.'
+        }
+    }
+}

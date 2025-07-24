@@ -13,6 +13,7 @@ RUN apk update && apk add --no-cache \
     libffi-dev \
     openssl-dev \
     build-base \
+    util-linux \
     && python3 -m venv /opt/ansible-venv \
     && . /opt/ansible-venv/bin/activate \
     && pip install --no-cache-dir ansible \

@@ -1,0 +1,38 @@
+groups:
+  - name: IBN Alerts
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.job }} on {{ $labels.instance }} is down."
+
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100) > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 90% for 5 minutes."
+
+      - alert: ApplicationErrorLogs
+        expr: sum(rate({job=\"syslog-ng\"} |= \"ERROR\"[5m])) by (instance) > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Application error logs detected"
+          description: "Errors found in logs for {{ $labels.instance }}."
+
+      - alert: CICDPipelineFailure
+        expr: sum(rate({job="syslog-ng", program="ci-cd-job"} |= "FAIL" or |= "ERROR"[5m])) by (instance) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "CI/CD Pipeline Failure Detected"
+          description: "A CI/CD job failure or error was detected in syslog for {{ $labels.instance }}. Check the CI/CD dashboard for details."

@@ -13,3 +13,6 @@ daphne==4.0.0
 djangorestframework-simplejwt==5.3.0
 requests==2.31.0
 django-extensions==3.2.3
+
+# OIDC integration for Keycloak
+mozilla-django-oidc==4.0.0

@@ -1,0 +1,127 @@
+<!-- filepath: c:\Users\ashtonDa\OneDrive - FUJITSU\Documents\IBN\IBN_STACK_OVERVIEW.svg -->
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .box { fill: #e6f0fa; stroke: #2a4d69; stroke-width: 2; }
+    .service { fill: #f9fbe7; stroke: #7e8c6f; stroke-width: 2; }
+    .arrow { stroke: #2a4d69; stroke-width: 2; marker-end: url(#arrowhead);}
+    .arrow-label { font-family: Arial, sans-serif; font-size: 14px; fill: #2a4d69; }
+    .label { font-family: Arial, sans-serif; font-size: 18px; fill: #2a4d69; }
+    .small { font-size: 14px; fill: #444; }
+  </style>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+      refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2a4d69"/>
+    </marker>
+  </defs>
+  <!-- Vault -->
+  <rect x="60" y="60" width="180" height="70" class="box"/>
+  <text x="150" y="100" text-anchor="middle" class="label">Vault</text>
+  <text x="150" y="120" text-anchor="middle" class="small">Secrets Management</text>
+  
+  <!-- Keycloak -->
+  <rect x="960" y="60" width="180" height="70" class="box"/>
+  <text x="1050" y="100" text-anchor="middle" class="label">Keycloak</text>
+  <text x="1050" y="120" text-anchor="middle" class="small">Central Auth Server</text>
+  
+  <!-- Django Backend -->
+  <rect x="60" y="250" width="220" height="80" class="service"/>
+  <text x="170" y="290" text-anchor="middle" class="label">Django Backend</text>
+  <text x="170" y="310" text-anchor="middle" class="small">Intent Engine, API</text>
+  
+  <!-- Intent Nexus Frontend -->
+  <rect x="400" y="250" width="220" height="80" class="service"/>
+  <text x="510" y="290" text-anchor="middle" class="label">Intent Nexus Frontend</text>
+  <text x="510" y="310" text-anchor="middle" class="small">React UI</text>
+  
+  <!-- CI/CD Pipeline -->
+  <rect x="60" y="470" width="220" height="80" class="service"/>
+  <text x="170" y="510" text-anchor="middle" class="label">CI/CD Pipeline</text>
+  <text x="170" y="530" text-anchor="middle" class="small">Jenkins, Lint, Deploy</text>
+  
+  <!-- Monitoring Stack -->
+  <rect x="400" y="470" width="220" height="80" class="service"/>
+  <text x="510" y="510" text-anchor="middle" class="label">Monitoring Stack</text>
+  <text x="510" y="530" text-anchor="middle" class="small">Prometheus, Grafana, Loki</text>
+  
+  <!-- Syslog-ng -->
+  <rect x="800" y="470" width="220" height="80" class="service"/>
+  <text x="910" y="510" text-anchor="middle" class="label">Syslog-ng</text>
+  <text x="910" y="530" text-anchor="middle" class="small">Central Log Aggregation</text>
+  
+  <!-- Network Devices -->
+  <rect x="960" y="250" width="180" height="80" class="service"/>
+  <text x="1050" y="290" text-anchor="middle" class="label">Network Devices</text>
+  <text x="1050" y="310" text-anchor="middle" class="small">Routers, Switches, etc.</text>
+  
+  <!-- GitHub/Repo -->
+  <rect x="60" y="650" width="220" height="70" class="box"/>
+  <text x="170" y="690" text-anchor="middle" class="label">GitHub/Repo</text>
+  <text x="170" y="710" text-anchor="middle" class="small">Config, PRs, Code</text>
+  
+  <!-- Arrows and Labels -->
+  <!-- Vault to Django -->
+  <line x1="150" y1="130" x2="170" y2="250" class="arrow"/>
+  <text x="120" y="200" class="arrow-label" transform="rotate(-65 120,200)">Secrets</text>
+  <!-- Vault to CI/CD -->
+  <line x1="150" y1="130" x2="170" y2="470" class="arrow"/>
+  <text x="120" y="320" class="arrow-label" transform="rotate(-65 120,320)">Secrets</text>
+  <!-- Vault to Monitoring -->
+  <line x1="150" y1="130" x2="510" y2="470" class="arrow"/>
+  <text x="300" y="300" class="arrow-label" transform="rotate(30 300,300)">Secrets</text>
+  <!-- Vault to Keycloak (OIDC Auth) -->
+  <line x1="240" y1="95" x2="960" y2="95" class="arrow"/>
+  <text x="600" y="80" class="arrow-label">OIDC Auth</text>
+  
+  <!-- Keycloak to Django -->
+  <line x1="1050" y1="130" x2="1050" y2="250" class="arrow"/>
+  <text x="1070" y="200" class="arrow-label" transform="rotate(90 1070,200)">OIDC/JWT</text>
+  <!-- Keycloak to Frontend -->
+  <line x1="1050" y1="130" x2="620" y2="250" class="arrow"/>
+  <text x="900" y="180" class="arrow-label" transform="rotate(25 900,180)">OIDC/SSO</text>
+  <!-- Keycloak to CI/CD -->
+  <line x1="1050" y1="130" x2="280" y2="470" class="arrow"/>
+  <text x="700" y="300" class="arrow-label" transform="rotate(35 700,300)">OIDC</text>
+  
+  <!-- Django to Frontend -->
+  <line x1="280" y1="290" x2="400" y2="290" class="arrow"/>
+  <text x="340" y="275" class="arrow-label">API</text>
+  <!-- Django to Monitoring -->
+  <line x1="170" y1="330" x2="510" y2="470" class="arrow"/>
+  <text x="320" y="400" class="arrow-label" transform="rotate(25 320,400)">Metrics/Logs</text>
+  <!-- Django to Vault (secrets fetch) -->
+  <line x1="170" y1="250" x2="150" y2="130" class="arrow" style="stroke-dasharray:5,5"/>
+  <text x="120" y="180" class="arrow-label" transform="rotate(65 120,180)">Secrets Fetch</text>
+  
+  <!-- Frontend to Django -->
+  <line x1="510" y1="330" x2="510" y2="470" class="arrow"/>
+  <text x="525" y="400" class="arrow-label" transform="rotate(90 525,400)">API/Logs</text>
+  <!-- Frontend to Keycloak (SSO) -->
+  <line x1="620" y1="250" x2="1050" y2="130" class="arrow" style="stroke-dasharray:5,5"/>
+  <text x="900" y="170" class="arrow-label" transform="rotate(-20 900,170)">SSO</text>
+  
+  <!-- CI/CD to Monitoring -->
+  <line x1="280" y1="510" x2="400" y2="510" class="arrow"/>
+  <text x="340" y="495" class="arrow-label">Metrics</text>
+  <!-- CI/CD to Syslog -->
+  <line x1="280" y1="530" x2="800" y2="530" class="arrow"/>
+  <text x="540" y="545" class="arrow-label">Job Logs</text>
+  <!-- CI/CD to GitHub -->
+  <line x1="170" y1="550" x2="170" y2="650" class="arrow"/>
+  <text x="190" y="600" class="arrow-label" transform="rotate(90 190,600)">PRs/Push</text>
+  
+  <!-- Monitoring to Syslog -->
+  <line x1="620" y1="510" x2="800" y2="510" class="arrow"/>
+  <text x="700" y="495" class="arrow-label">Log Stream</text>
+  
+  <!-- Syslog-ng to Monitoring -->
+  <line x1="910" y1="550" x2="510" y2="550" class="arrow"/>
+  <text x="700" y="565" class="arrow-label">Logs</text>
+  
+  <!-- Network Devices to Syslog -->
+  <line x1="1050" y1="330" x2="910" y2="470" class="arrow"/>
+  <text x="1000" y="400" class="arrow-label" transform="rotate(45 1000,400)">Syslog</text>
+  <!-- Network Devices to Monitoring -->
+  <line x1="1050" y1="330" x2="620" y2="470" class="arrow"/>
+  <text x="900" y="400" class="arrow-label" transform="rotate(25 900,400)">SNMP/Metrics</text>
+</svg>
